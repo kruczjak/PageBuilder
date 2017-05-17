@@ -11,7 +11,12 @@ jobs:
     - stage: deploy
       rvm: 2.4.1
       before_install:
+        - openssl aes-256-cbc -K $encrypted_f74f1974c608_key -iv $encrypted_f74f1974c608_iv -in .travis/deploy_key.pem.enc -out .travis/deploy_key.pem -d
         - if [ "$TRAVIS_BRANCH" != "master" ] || [ "$TRAVIS_PULL_REQUEST" != "false" ]; then exit 0; fi
       script:
-        - echo "ok"
-
+        - eval "$(ssh-agent -s)"
+        - chmod 600 .travis/deploy_key.pem
+        - ssh-add .travis/deploy_key.pem
+        - mv -fv .travis/ssh_config ~/.ssh/config
+        - git remote add dokku dokku@vps.kruczjak.pl:page-builder
+        - git push dokku master
