@@ -1,6 +1,17 @@
 language: ruby
 rvm:
  - 2.4.1
+cache: bundler
 
-script:
- - bundle exec rspec
+jobs:
+  include:
+    - stage: test
+      rvm: 2.4.1
+      script: bundle exec rspec
+    - stage: deploy
+      rvm: 2.4.1
+      before_install:
+        - if [ "$TRAVIS_BRANCH" != "master" ] || [ "$TRAVIS_PULL_REQUEST" != "false" ]; then exit 0; fi
+      script:
+        - echo "ok"
+
