@@ -1,0 +1,4 @@
+Host vps.kruczjak.pl
+StrictHostKeyChecking no
+PasswordAuthentication no
+CheckHostIP no
