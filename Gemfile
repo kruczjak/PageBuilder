@@ -20,11 +20,9 @@ gem 'puma', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+gem 'oj'
 
 # devise
-gem 'devise'
 gem 'devise_token_auth'
 gem 'omniauth-facebook'
 
@@ -37,6 +35,8 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'
+  gem 'pry-byebug'
+  gem 'shoulda-matchers'
 end
 
 group :development do
@@ -55,3 +55,4 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'git'
+gem 'active_model_serializers', '~> 0.10.0'
