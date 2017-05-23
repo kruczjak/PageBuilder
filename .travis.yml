@@ -2,12 +2,21 @@ language: ruby
 rvm:
  - 2.4.1
 cache: bundler
+services:
+  - postgresql
+addons:
+  postgresql: "9.4"
+script: false
 
 jobs:
   include:
     - stage: test
       rvm: 2.4.1
-      script: bundle exec rspec
+      before_script:
+        - bundle exec rails db:create
+        - bundle exec rails db:migrate
+      script:
+        - bundle exec rspec
     - stage: deploy
       rvm: 2.4.1
       before_install:
