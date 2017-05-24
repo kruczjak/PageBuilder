@@ -1,6 +1,5 @@
 module Api
   class ProjectsController < ApplicationController
-    before_action :authenticate_user!
     before_action :set_project, only: %i(show destroy update)
 
     def create
