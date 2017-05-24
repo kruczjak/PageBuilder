@@ -7,7 +7,7 @@ class Project < ApplicationRecord
     name.presence || uuid
   end
 
-  def save
+  def save(*)
     self.uuid ||= SecureRandom.uuid
     super
   end

@@ -10,6 +10,8 @@ class ProjectGeneratorWorker
     logger.info `cd #{project_folder} && bundle exec middleman build --build-dir=#{build_folder}`
 
     zip_build_files if create_zip
+
+    @project.update_attribute(:built_at, Time.current)
   end
 
   private
