@@ -26,6 +26,12 @@ gem 'oj'
 gem 'devise_token_auth'
 gem 'omniauth-facebook'
 
+gem 'bundler'
+gem 'sidekiq'
+
+gem 'middleman', '~> 4'
+gem 'middleman-autoprefixer'
+
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
