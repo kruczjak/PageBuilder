@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :builds, only: :show
-    resources :projects
+    resources :projects do
+      member { get :directory_tree }
+    end
     resource :user, only: :show
   end
 end
