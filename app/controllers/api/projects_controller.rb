@@ -1,7 +1,7 @@
 module Api
   class ProjectsController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_project, only: %i(show destroy update)
+    before_action :set_project, only: %i(show destroy update directory_tree)
 
     def create
       project = Project.new(project_params)
@@ -16,13 +16,20 @@ module Api
 
     # Renders project owned by current_user
     def index
-      render json: current_user.projects
+      render json: current_user.projects.ordered
     end
 
     # Renders project owned by current_user
     # @return [serialized Project]
     def show
       render json: @project
+    end
+
+    def directory_tree
+      hash = directory_hash(@project.project_path, @project.name)
+      hash[:isExpanded] = true
+
+      render json: Oj.dump(hash.deep_stringify_keys)
     end
 
     private
@@ -33,6 +40,29 @@ module Api
 
     def project_params
       params.require(:project).permit(:id, :name)
+    end
+
+    def directory_hash(path, name=nil)
+      data = { id: next_index, name: (name || path.to_s) }
+      data[:children] = children = []
+
+      Dir.foreach(path) do |entry|
+        next if entry == '..' || entry == '.'
+
+        full_path = File.join(path, entry)
+        if File.directory?(full_path)
+          children << directory_hash(full_path, entry)
+        else
+          children << { id: next_index, name: entry }
+        end
+      end
+
+      data
+    end
+
+    def next_index
+      @next_index ||= 0
+      @next_index += 1
     end
   end
 end

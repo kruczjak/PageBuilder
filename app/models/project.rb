@@ -3,6 +3,8 @@ class Project < ApplicationRecord
 
   after_create :schedule_project_creator
 
+  scope :ordered, -> () { order(updated_at: :desc) }
+
   def name_or_uuid
     name.presence || uuid
   end
