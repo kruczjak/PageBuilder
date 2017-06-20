@@ -31,6 +31,7 @@ gem 'sidekiq'
 
 gem 'middleman', '~> 4'
 gem 'middleman-autoprefixer'
+gem 'middleman-gh-pages'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'

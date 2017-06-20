@@ -1,7 +1,7 @@
 module Api
   class ProjectsController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_project, only: %i(show destroy update directory_tree)
+    before_action :set_project, only: %i(show destroy update directory_tree regenerate)
 
     def create
       project = Project.new(project_params)
@@ -30,6 +30,12 @@ module Api
       hash[:isExpanded] = true
 
       render json: Oj.dump(hash.deep_stringify_keys)
+    end
+
+    def regenerate
+      ProjectGeneratorWorker.perform_async(@project.id)
+
+      render json: { status: :ok }
     end
 
     private

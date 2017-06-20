@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170524224405) do
+ActiveRecord::Schema.define(version: 20170620220549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "project_settings", force: :cascade do |t|
+    t.integer  "project_id",     null: false
+    t.string   "git_remote_url"
+    t.string   "git_sshkey"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["project_id"], name: "index_project_settings_on_project_id", using: :btree
+  end
 
   create_table "projects", force: :cascade do |t|
     t.integer  "user_id",        null: false
@@ -56,5 +65,6 @@ ActiveRecord::Schema.define(version: 20170524224405) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
+  add_foreign_key "project_settings", "projects"
   add_foreign_key "projects", "users"
 end

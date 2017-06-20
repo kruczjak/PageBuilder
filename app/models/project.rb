@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
   belongs_to :user
+  has_one :project_setting
 
   after_create :schedule_project_creator
 
