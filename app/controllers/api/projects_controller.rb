@@ -3,6 +3,7 @@ module Api
     before_action :authenticate_user!
     before_action :set_project, only: %i(show destroy update directory_tree regenerate)
 
+    # Creates project and renders errors if any
     def create
       project = Project.new(project_params)
       project.user = current_user
@@ -15,16 +16,18 @@ module Api
     end
 
     # Renders project owned by current_user
+    # @return [Array of serialized Projects]
     def index
       render json: current_user.projects.ordered
     end
 
-    # Renders project owned by current_user
+    # Renders project owned by current_user   
     # @return [serialized Project]
     def show
       render json: @project
     end
 
+    # Renders whole directory tree
     def directory_tree
       hash = directory_hash(@project.project_path, @project.name)
       hash[:isExpanded] = true
@@ -32,6 +35,7 @@ module Api
       render json: Oj.dump(hash.deep_stringify_keys)
     end
 
+    # Starts project regenerating in background
     def regenerate
       ProjectGeneratorWorker.perform_async(@project.id)
 

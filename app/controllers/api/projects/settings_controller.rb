@@ -3,10 +3,12 @@ module Api
     class SettingsController < ApplicationController
       before_action :authenticate_user!
 
+      # Renders current settings for project
       def show
         render json: project.project_setting
       end
 
+      # Updates settings for given product
       def update
         project_setting = project.project_setting || project.build_project_setting
         project_setting.attributes = project_setting_params

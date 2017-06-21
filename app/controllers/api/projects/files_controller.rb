@@ -3,18 +3,21 @@ module Api
     class FilesController < ApplicationController
       before_action :authenticate_user!
 
+      # Creates new file with given path
       def create
         File.open(file_path, 'w')
 
         render json: { status: :ok }
       end
 
+      # Renders file on given path
       def show
         readed_file = File.read(file_path)
 
         render json: { content: readed_file }
       end
 
+      # Updates file on given path
       def update
         File.open(file_path, 'w') do |file|
           file.write(file_params[:content])
@@ -23,6 +26,7 @@ module Api
         render json: { status: :ok }
       end
 
+      # Removes file from given path
       def destroy
         File.delete(file_path)
 
