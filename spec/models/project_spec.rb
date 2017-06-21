@@ -21,5 +21,16 @@ describe Project do
       expect(project.build_zip).to eq(Rails.public_path.join('builds', "#{project.uuid}.zip"))
     end
   end
+
+  context 'while creating' do
+    it 'uuid is generated' do
+      project = described_class.new
+      
+      expect(project.uuid).to be_nil
+
+      project.save
+
+      expect(project.uuid).not_to be_nil
+    end
+  end
 end
-  
