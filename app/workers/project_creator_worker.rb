@@ -11,6 +11,8 @@ class ProjectCreatorWorker
     `echo "require 'middleman-gh-pages'" >> #{project.project_path.join('Rakefile')}`
 
     g = Git.init(project.project_path.to_s)
+    g.config('user.name', 'PageBuilder')
+    g.config('user.email', 'builder@noreply.com')
     g.add(all: true)
     g.commit(COMMIT_MESSAGE)
 
